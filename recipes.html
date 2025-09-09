@@ -10,15 +10,19 @@
         nav { background-color: #333; padding: 10px; }
         nav a { color: white; margin: 0 15px; text-decoration: none; }
         nav a:hover { text-decoration: underline; }
+        nav a.active {
+            color: #999999;
+            font-weight: bold;
+        }
         img { max-width: 100%; height: auto; margin: 10px 0; }
     </style>
 </head>
 <body>
     <nav>
-        <a href="/about">About Me</a>
+        <a href="/">About Me</a>
         <a href="/family">Family</a>
-        <a href="/recipes">Recipes</a>
-        <a href="/">Resume</a>
+        <a href="/recipes" class="active">Recipes</a>
+        <a href="/about">Resume</a>
     </nav>
     <div class="resume-container">
         <h1>Favorite Recipes</h1>

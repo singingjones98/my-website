@@ -10,20 +10,24 @@
         nav { background-color: #333; padding: 10px; }
         nav a { color: white; margin: 0 15px; text-decoration: none; }
         nav a:hover { text-decoration: underline; }
+        nav a.active {
+            color: #999999;
+            font-weight: bold;
+        }
         img { max-width: 100%; height: auto; margin: 10px 0; }
     </style>
 </head>
 <body>
     <nav>
-        <a href="/about">About Me</a>
-        <a href="/family">Family</a>
+        <a href="/">About Me</a>
+        <a href="/family" class="active">Family</a>
         <a href="/recipes">Recipes</a>
-        <a href="/">Resume</a>
+        <a href="/about">Resume</a>        
     </nav>
     <div class="resume-container">
         <h1>Family</h1>
         <h2>Melody</h2>
-        <img src="images/Melody.jpg" alt="Melody">
+        <img src="images/My wife and I.jpg" alt="Melody">
         <p>The yin of my yang, the light of my dark, my polar opposite, the love of my life.</p>
         <h2>Seth</h2>
         <img src="images/Seth.jpg" alt="Seth">
