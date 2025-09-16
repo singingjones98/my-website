@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About Me - Joshua Jones</title>
+
     <style>
         body { font-family: Arial, sans-serif; margin: 20px; }
         .resume-container { max-width: 800px; margin: 0 auto; text-align: left; }
@@ -16,6 +17,8 @@
 			font-weight: bold;
 		}
         img { max-width: 100%; height: auto; }
+        #joke { font-style: italic; color: #555; margin: 10px 0; max-width: 600px; }
+      
     </style>
 </head>
 <body>
@@ -29,6 +32,42 @@
         <h1>About Me</h1>
         <img src="images/Joshua.jpg" alt="Joshua Jones">
         <p class="summary">I am a passionate software developer from Utah with a love for computer science, but most of all I love my family. I enjoy skiing, programming, reading, and playing with my kids and dating my wife. I’m excited to share my journey online.</p>
+        <h2>Joke of the Day</h2>
+        <p id="joke"></p>
     </div>
+    <script>
+
+        // Get today's date as a string (e.g., "Tue Sep 16 2025")
+        const today = new Date().toDateString();
+        
+        // Check if a joke is saved in localStorage
+        const storedJoke = localStorage.getItem('jokeOfTheDay');
+        const storedDate = localStorage.getItem('jokeDate');
+        
+        // If we have a joke and it's from today, display it
+        if (storedJoke && storedDate === today) {
+            document.getElementById('joke').textContent = storedJoke;
+        } else {
+            // Fetch a new joke from the API
+            fetch('https://icanhazdadjoke.com/', {
+                headers: {
+                    'Accept': 'application/json'
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    // Display the joke
+                    document.getElementById('joke').textContent = data.joke;
+                    // Save the joke and today's date
+                    localStorage.setItem('jokeOfTheDay', data.joke);
+                    localStorage.setItem('jokeDate', today);
+                })
+                .catch(error => {
+                    // Handle errors (e.g., API is down)
+                    console.error('Error fetching joke:', error);
+                    document.getElementById('joke').textContent = 'Could not load joke today. Try again tomorrow!';
+                });
+        }
+    </script>
 </body>
 </html>
