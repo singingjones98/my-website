@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog - Joshua Jones</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .container { max-width: 800px; margin: 0 auto; text-align: left; }
+        nav { background-color: #333; padding: 10px; }
+        nav a { color: white; margin: 0 15px; text-decoration: none; }
+        nav a:hover { text-decoration: underline; }
+        nav a.active { color: #999999; font-weight: bold; }
+        .post { border: 1px solid #ddd; padding: 10px; margin: 10px 0; }
+        .excerpt { font-style: italic; color: #666; }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="/">About Me</a>
+        <a href="/family">Family</a>
+        <a href="/recipes">Recipes</a>
+        <a href="/about">Resume</a>
+        <a href="/blog" class="active">Blog</a>
+    </nav>
+    <div class="container">
+        <h1>My Blog</h1>
+        <div id="posts-list"></div>
+    </div>
+    <script>
+        const supabaseUrl = 'https://rjefgfotdplscignochb.supabase.co';
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJqZWZnZm90ZHBsc2NpZ25vY2hiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTg4MjIwOTEsImV4cCI6MjA3NDM5ODA5MX0.VaA0bvnH1kI5fbjE9t8uSBmPUxyl867BkOJaJAN3TaQ';
+
+        async function loadPosts() {
+            try {
+                const response = await fetch(`${supabaseUrl}/rest/v1/posts?select=*&order=created_at.desc`, {
+                    headers: { 'apikey': supabaseKey, 'Authorization': `Bearer ${supabaseKey}` }
+                });
+                const data = await response.json();
+
+                if (!response.ok) throw new Error('Network response was not ok');
+
+                let html = '';
+                data.forEach(post => {
+                    html += `
+                        <div class="post">
+                            <h2>${post.title}</h2>
+                            <p class="excerpt">${post.excerpt || 'No excerpt available.'}</p>
+                            <div>${post.content}</div>
+                            <p><small>Posted on ${new Date(post.created_at).toLocaleDateString()}</small></p>
+                        </div>
+                    `;
+                });
+                document.getElementById('posts-list').innerHTML = html || '<p>No posts found.</p>';
+            } catch (error) {
+                console.error('Error loading posts:', error);
+                document.getElementById('posts-list').innerHTML = '<p>Error loading posts. Check console.</p>';
+            }
+        }
+
+        loadPosts();
+    </script>
+</body>
+</html>
